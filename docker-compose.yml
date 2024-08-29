@@ -11,6 +11,8 @@ services:
     networks:
       spark-network:
         ipv4_address: 172.24.0.2
+    volumes:
+      - ./file.py:/opt/bitnami/spark/file.py  
 
   spark-node-1:
     image: image_bitnami
@@ -18,11 +20,6 @@ services:
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://172.24.0.2:7077
     depends_on:
       - spark-master
-    environment:
-      SPARK_MODE: worker
-      SPARK_WORKER_CORES: 2
-      SPARK_WORKER_MEMORY: 1g
-      SPARK_MASTER_URL: spark://172.24.0.2:7077
     networks:
       - spark-network
 
@@ -32,11 +29,15 @@ services:
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://172.24.0.2:7077
     depends_on:
       - spark-master
-    environment:
-      SPARK_MODE: worker
-      SPARK_WORKER_CORES: 2
-      SPARK_WORKER_MEMORY: 1g
-      SPARK_MASTER_URL: spark://172.24.0.2:7077
+    networks:
+      - spark-network
+
+  spark-submit:
+    image: image_bitnami
+    container_name: submitter
+    depends_on:
+      - spark-master
+    command: spark-submit --master spark://172.24.0.2:7077 /opt/bitnami/spark/file.py
     networks:
       - spark-network
 
