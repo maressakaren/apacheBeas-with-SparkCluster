@@ -2,44 +2,48 @@ version: '3.7'
 
 services:
   spark-master:
-    image: bitnami/spark:latest
+    image: image_bitnami
     container_name: master
     command: bin/spark-class org.apache.spark.deploy.master.Master
     ports:
       - "9090:8080"
       - "7077:7077"
     networks:
-      - spark-network
+      spark-network:
+        ipv4_address: 172.24.0.2
 
   spark-node-1:
-    image: bitnami/spark:latest
+    image: image_bitnami
     container_name: node1
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://172.24.0.2:7077
     depends_on:
       - spark-master
     environment:
       SPARK_MODE: worker
       SPARK_WORKER_CORES: 2
       SPARK_WORKER_MEMORY: 1g
-      SPARK_MASTER_URL: spark://spark-master:7077
+      SPARK_MASTER_URL: spark://172.24.0.2:7077
     networks:
       - spark-network
 
   spark-node-2:
-    image: bitnami/spark:latest
+    image: image_bitnami
     container_name: node2
-    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://172.24.0.2:7077
     depends_on:
       - spark-master
     environment:
       SPARK_MODE: worker
       SPARK_WORKER_CORES: 2
       SPARK_WORKER_MEMORY: 1g
-      SPARK_MASTER_URL: spark://spark-master:7077
+      SPARK_MASTER_URL: spark://172.24.0.2:7077
     networks:
       - spark-network
 
 networks:
   spark-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.24.0.0/24
 
