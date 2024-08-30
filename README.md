@@ -54,13 +54,6 @@ Este Relatório detalha a estrutura do projeto e como configurar um cluster Apac
    
    Os serviços devem estar criados e o arquivo `file.py` executado. Verifique se há aplicações em andamento ou já finalizadas.
 
-6. **Submeter o Job para o Cluster**
-
-   O script `start-spark.sh` está configurado para submeter automaticamente o arquivo `file.py` ao cluster quando o Master for iniciado. Se precisar submeter um novo job, utilize o contêiner `spark-submit`:
-
-   ```bash
-   docker-compose run spark-submit
-   ```
 
 7. **Finalizar o Cluster**
 
