@@ -9,7 +9,6 @@ Este Relatório detalha a estrutura do projeto e como configurar um cluster Apac
 
 - **Dockerfile**: Define a imagem Docker personalizada para o cluster Spark.
 - **docker-compose.yml**: Arquivo de configuração do Docker Compose para iniciar o cluster Spark.
-- **start-spark.sh**: Script de inicialização para iniciar o Master e os Workers do Spark.
 - **file.py**: Código de exemplo que será executado no cluster Spark.
 
 ## Passo a Passo para Executar o Cluster
@@ -75,8 +74,6 @@ Este Relatório detalha a estrutura do projeto e como configurar um cluster Apac
 
 - **Dockerfile**: Utiliza a imagem base do Spark da Bitnami e copia os scripts necessários para o contêiner. Ele define um comando de inicialização (`start-spark.sh`) para configurar o ambiente do Spark.
   
-- **start-spark.sh**: Script Bash que inicializa o Master e os Workers do Spark. O script também executa o arquivo `file.py` usando `spark-submit` no nó Master.
-
 - **file.py**: Exemplo de um job simples em PySpark que calcula a soma de uma série de números.
 
 - **docker-compose.yml**: Configura o ambiente do cluster com um nó Master, dois nós Worker e um contêiner para submissão de jobs. Define a rede e as dependências entre os serviços.
